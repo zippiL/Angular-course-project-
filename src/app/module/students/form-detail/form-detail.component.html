@@ -1,0 +1,90 @@
+<div class="card" *ngIf="stud else noStudent">
+  <div class="card-body">
+    <form [formGroup]="studentFrom">
+
+      <div class="form-group">
+        <label for="firstName">first Name</label>
+        <input type="text" class="form-control" id="firstName" formControlName="firstName">
+        <ng-container *ngIf="studentFrom.controls['firstName'].errors">
+          <div class="alert alert-danger" *ngIf="studentFrom.controls['firstName'].errors['required']">This field is
+            required</div>
+          <div class="alert alert-danger" *ngIf="studentFrom.controls['firstName'].errors['minlength']">This field is
+            must be at least3 chars</div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">last Name</label>
+        <input type="text" class="form-control" id="lastName" formControlName="lastName">
+      </div>
+
+      <div class="form-group">
+        <label for="address">address</label>
+        <input type="text" class="form-control" id="address" formControlName="address">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">phone</label>
+        <input type="text" class="form-control" id="phone" formControlName="phone">
+      </div>
+
+      <div class="form-group">
+        <label for="avgMark">avgMark</label>
+        <input type="number" class="form-control" id="avgMark" formControlName="avgMark">
+      </div>
+
+      <div class="form-group">
+        <label for="professionsId">professionsId:</label>
+        <select class="form-control" formControlName="professionsId">
+          <option *ngFor="let prof of professionsList" [value]="prof.id">{{prof.professions}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="school_year">school year</label>
+        <br>
+        <input type="radio" [value]=stud_enum.year1 name="school_year" formControlName="school_year">שנה א
+        <br>
+        <input type="radio" [value]=stud_enum.year2 name="school_year" formControlName="school_year">שנה ב
+        <br>
+        <input type="radio" [value]=stud_enum.year3 name="school_year" formControlName="school_year">שנה ג
+        <br>
+      </div>
+
+      <div [ngSwitch]="studentFrom.controls['school_year'].value">
+        <div *ngSwitchCase="'stud_enum.year1'">
+          Number of study days: 200
+        </div>
+        <div *ngSwitchCase="'stud_enum.year2'">
+          Number of study days: 170
+        </div>
+        <div *ngSwitchCase="'stud_enum.year3'">
+          Number of study days: 150
+        </div>
+        <div *ngSwitchDefault>
+          No year selected
+        </div>
+      </div>
+      {{studentFrom.value | json}}
+      <form>
+        Total absence days {{totalMissingDays}}
+        <br>
+        <label for="fromDate">from Date:</label>
+        <input type="date" id="fromDate" name="fromDate"  [(ngModel)]="missingFromDate">
+        <br>
+        <label for="totalDays">total days:</label>
+        <input type="number"  id="totalDays" name="totalDays" [(ngModel)]="missingDays">
+        {{missingDays}}
+      </form>
+      <button class="btn btn-primary" (click)="saveNewStudent()" [disabled]="!studentFrom.valid">Save</button>
+    </form>
+
+  </div>
+</div>
+
+<ng-template #noStudent>
+  <div class="card">
+    No student to display
+  </div>
+  <br>
+</ng-template>

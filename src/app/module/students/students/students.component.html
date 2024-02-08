@@ -1,0 +1,31 @@
+<input type="checkbox" #cbh  (change)="showactive(cbh.checked)">
+<span>Show only active students</span>
+<br>
+<input type="text"  [(ngModel)]="searchText" placeholder="search student by name" (input)="onSearchInputChange()">
+<ul class="list-group">
+    <li *ngFor="let stud of filteredStudents" class="list-group-item" [ngClass]="{
+                'list-group-item-dark':stud.active==false,
+                'list-group-item-success':stud.avgMark>90}">
+        <div class="row">
+            <div class="col-1">{{stud.id}}</div>
+            <div class="col-1">{{stud.active}}</div>
+            <div class="col-1">{{stud.firstName}}</div>
+            <div class="col-1">{{stud.lastName}}</div>
+            <div class="col-2">{{stud.address}}</div>
+            <div class="col-1">{{stud.avgMark}}</div>
+            <div class="col-1">{{stud.phone}}</div>
+            <div class="col-1">{{days}}</div>
+            <app-test [tests]="stud.test" [id]="stud.id" ></app-test>
+                <div class="col-2">
+                    <button class="btn btn-primary" (click)="showDetails(stud)">Editing student details</button>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-danger" (click)="deleteStudent(stud)">delete student</button>
+                </div>
+        </div>
+    </li>
+</ul>
+<br>
+<button class="btn btn-success" (click)="addStudent()">Adding a student</button>
+<br>
+<app-form-detail  [stud]="detstudent" (onSaveNewStudent)="addStudentToList($event)"></app-form-detail>

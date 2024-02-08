@@ -1,0 +1,8 @@
+<ul class="list-group list-group-horizontal">
+    <div *ngIf="avg">
+        avg: {{avg}}</div>
+    <li *ngFor="let test of tests" class="list-group-item"> 
+        <div>test: {{test.nameOfTest}}</div>
+        <div>mark: {{test.mark}}</div>
+    </li>
+</ul>
